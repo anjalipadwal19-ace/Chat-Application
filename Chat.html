@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Real-Time Chat App</title>
+  <link rel="stylesheet" href="Chat.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ================= Toggle Button ================= -->
+  <button id="themeToggle" class="theme-toggle">🌙</button>
+
+  <!-- ================= Login Section ================= -->
+  <div class="login">
+    <div class="login-container">
+      <h2>Join Chat</h2>
+      <input id="username" placeholder="Enter username">
+      <input id="room" placeholder="Enter room name">
+      <button id="joinBtn" onclick="joinRoom()">Join</button>
+    </div>
+  </div>
+
+  <!-- ================= Chat Section ================= -->
+  <div class="chat hidden">
+
+    <!-- ================= LEFT SIDE: Rooms & Users ================= -->
+    <div class="rooms">
+      <h3>Rooms</h3>
+      <ul id="roomList"></ul>
+      <h3>Users</h3>
+      <ul id="userList"></ul>
+      <input id="newRoom" placeholder="New room">
+      <button onclick="createRoom()">Create</button>
+    </div>
+
+    <!-- ================= RIGHT SIDE: Chat Area ================= -->
+    <div class="chat-area">
+      <div id="messages"></div>
+      <div id="typing" class="system"></div>
+      <div class="input-container">
+        <input id="messageInput" placeholder="Type message">
+        <button onclick="sendMessage()">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="Chat.js"></script>
+</body>
+</html>

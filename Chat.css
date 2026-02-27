@@ -1,0 +1,498 @@
+/* ================= Common Style ================= */
+* {
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    transition: background 0.4s ease, color 0.4s ease;
+}
+
+.chat {
+    display: flex;
+    height: 100vh;
+}
+
+.hidden {
+    display: none;
+}
+
+.chat-area {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+}
+
+.rooms ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.login {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+    padding: 20px;
+}
+
+/* ================= Animation ================= */
+@keyframes cosmicShift {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes starTwinkle {
+    0% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+
+    100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+}
+
+@keyframes cosmicEnter {
+    0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(40px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes messageSlide {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ================= Dark Mode (Default) ================= */
+:root {
+    --bg-primary: #0c0c1d;
+    --bg-secondary: #1a1a3e;
+    --bg-tertiary: #2d1b69;
+    --bg-chat: rgba(31, 41, 55, 0.6);
+    --glass-bg: rgba(20, 20, 50, 0.85);
+    --text-primary: #e5e7eb;
+    --text-secondary: #94a3b8;
+    --border-color: rgba(255, 255, 255, 0.12);
+    --accent-gradient: linear-gradient(135deg, #00d4ff, #7c3aed);
+    --message-bg: rgba(55, 65, 81, 0.8);
+    --my-message-bg: linear-gradient(135deg, rgba(0, 212, 255, 0.25), rgba(124, 58, 237, 0.25));
+}
+
+body {
+    margin: 0;
+    background: var(--bg-primary);
+    background-size: 400% 400%;
+    animation: cosmicShift 20s ease infinite;
+    color: var(--text-primary);
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(1.5px 1.5px at 20px 30px, rgba(255, 255, 255, 0.2), transparent),
+        radial-gradient(1px 1px at 90px 70px, rgba(59, 130, 246, 0.2), transparent),
+        radial-gradient(0.8px 0.8px at 160px 40px, rgba(236, 72, 153, 0.2), transparent);
+    background-repeat: repeat;
+    background-size: 300px 200px;
+    animation: starTwinkle 25s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ================= Components - DARK ================= */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    color: var(--text-primary);
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    border-radius: 24px;
+    border: 1px solid var(--border-color);
+    padding: 56px 48px;
+    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    animation: cosmicEnter 1s ease-out;
+    max-width: 400px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.rooms {
+    width: 25%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    border-right: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 32px;
+    overflow-y: auto;
+    position: relative;
+}
+
+#messages {
+    flex: 1;
+    padding: 32px;
+    overflow-y: auto;
+    background: var(--bg-chat);
+    backdrop-filter: blur(20px);
+    color: var(--text-primary);
+    scroll-behavior: smooth;
+}
+
+.input-container {
+    padding: 32px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 16px;
+    align-items: end;
+}
+
+.message {
+    background: var(--message-bg);
+    backdrop-filter: blur(15px);
+    padding: 18px 24px;
+    border-radius: 24px;
+    margin-bottom: 20px;
+    max-width: 70%;
+    border: 1px solid var(--border-color);
+    animation: messageSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.login h2,
+.rooms h3 {
+    font-weight: 800;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.login h2 {
+    font-size: 30px;
+    text-align: center;
+    margin: 0 0 24px 0;
+}
+
+.rooms h3 {
+    font-size: 22px;
+    text-align: center;
+    margin: 0 0 32px 0;
+}
+
+.login input,
+.chat-area input,
+.rooms input {
+    width: 100%;
+    padding: 18px 24px;
+    border-radius: 16px;
+    border: 2px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    font-size: 16px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(15px);
+}
+
+.login input:focus,
+.chat-area input:focus {
+    outline: none;
+    border-color: #00d4ff;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.login input::placeholder {
+    color: var(--text-secondary);
+}
+
+.login button,
+.rooms button,
+.chat-area button {
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.login button {
+    width: 100%;
+    padding: 18px;
+    border-radius: 16px;
+    font-size: 16px;
+    box-shadow: 0 12px 32px rgba(0, 212, 255, 0.4);
+}
+
+.rooms button {
+    width: 100%;
+    padding: 16px 20px;
+    border-radius: 16px;
+    font-size: 15px;
+    margin-top: 16px;
+}
+
+.chat-area button {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+}
+
+.rooms li {
+    padding: 18px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid var(--border-color);
+    color: var(--text-primary);
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+}
+
+.my-message {
+    border-color: rgba(0, 212, 255, 0.3);
+    margin-left: auto;
+    border-radius: 24px 24px 12px 24px;
+    color: #ffffff;
+}
+
+.system {
+    text-align: center;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.08);
+    padding: 12px 20px;
+    border-radius: 20px;
+    margin: 20px auto;
+    max-width: 320px;
+    font-style: italic;
+    backdrop-filter: blur(10px);
+}
+
+#typing {
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.rooms::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(0, 212, 255, 0.4), transparent);
+}
+
+.rooms li.active {
+    background: var(--my-message-bg);
+    border-color: #00d4ff;
+    box-shadow: 0 12px 35px rgba(0, 212, 255, 0.4);
+    color: #ffffff;
+}
+
+/* ================= Light Mode ================= */
+[data-theme="light"] {
+    --bg-primary: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 50%, #c7d2fe 100%);
+    --bg-secondary: rgba(255, 255, 255, 0.95);
+    --bg-tertiary: rgba(248, 250, 252, 0.9);
+    --bg-chat: rgba(255, 255, 255, 0.95);
+    --glass-bg: rgba(255, 255, 255, 0.9);
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: rgba(0, 0, 0, 0.08);
+    --accent-gradient: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    --message-bg: rgba(248, 250, 252, 0.95);
+    --my-message-bg: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+}
+
+[data-theme="light"] body::before {
+    background-image:
+        radial-gradient(1.5px 1.5px at 20px 30px, rgba(30, 41, 59, 0.3), transparent),
+        radial-gradient(1px 1px at 90px 70px, rgba(59, 130, 246, 0.2), transparent),
+        radial-gradient(0.8px 0.8px at 160px 40px, rgba(236, 72, 153, 0.2), transparent);
+}
+
+[data-theme="light"] .theme-toggle {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .login-container {
+    box-shadow:
+        0 32px 64px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="light"] .message {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .rooms {
+    border-right: 1px solid var(--border-color);
+}
+
+/* ================= Interactions & Hovers ================= */
+.theme-toggle:hover {
+    transform: scale(1.1) rotate(180deg);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.login-container::before,
+.login button::before,
+.rooms li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s;
+}
+
+.login-container:hover::before,
+.login button:hover::before,
+.rooms li:hover::before {
+    left: 100%;
+}
+
+.login button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 45px rgba(0, 212, 255, 0.5);
+}
+
+.rooms button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 212, 255, 0.4);
+}
+
+.chat-area button:hover {
+    transform: scale(1.1) rotate(180deg);
+    box-shadow: 0 18px 45px rgba(0, 212, 255, 0.6);
+}
+
+.rooms li:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #00d4ff;
+    transform: translateX(6px);
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+}
+
+/* ================= Responsive ================= */
+@media (max-width: 768px) {
+    .chat {
+        flex-direction: column;
+    }
+
+    .rooms {
+        width: 100%;
+        height: 35%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .chat-area {
+        width: 100%;
+        height: 65%;
+    }
+
+    .login-container {
+        padding: 40px 32px;
+        margin: 20px;
+    }
+
+    .theme-toggle {
+        top: 15px;
+        right: 15px;
+        width: 55px;
+        height: 55px;
+    }
+}
+
+/* ================= ScrollBar================= */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-gradient);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
